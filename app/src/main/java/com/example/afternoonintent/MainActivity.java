@@ -4,23 +4,26 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.AlarmClock;
+
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
 public class MainActivity extends AppCompatActivity {
 
-    Button cmdExplicit;
-    EditText txtMessage;
+    Button cmdSetAlarm, cmdExplicit;
+    EditText txtHour, txtMessage, txtMinutes;
+    //Added for git visibility
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        cmdExplicit = findViewById(R.id.cmdExplicit);
-        txtMessage = findViewById(R.id.txtMessage);
+        refs();
 
+        cmdSetAlarm.setOnClickListener(createAlarm);
         cmdExplicit.setOnClickListener(startSecondActivity);
     }
 
@@ -36,4 +39,33 @@ public class MainActivity extends AppCompatActivity {
 
         }
     };
+
+
+    View.OnClickListener createAlarm = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            String msg = txtMessage.getText().toString();
+            int hour = Integer.parseInt(txtHour.getText().toString());
+            int min = Integer.parseInt(txtMinutes.getText().toString());
+
+            Intent intent = new Intent(AlarmClock.ACTION_SET_ALARM)
+                    .putExtra(AlarmClock.EXTRA_HOUR, hour)
+                    .putExtra(AlarmClock.EXTRA_MINUTES, min);
+
+            intent.putExtra(AlarmClock.EXTRA_MESSAGE, msg);
+
+            if (intent.resolveActivity(getPackageManager()) != null) {
+                startActivity(intent);
+            }
+
+        }
+    };
+
+    public void refs() {
+        cmdSetAlarm = findViewById(R.id.cmdSetAlarm);
+        txtHour = findViewById(R.id.txtHour);
+        txtMinutes = findViewById(R.id.txtMinutes);
+        txtMessage = findViewById(R.id.txtMessage);
+        cmdExplicit = findViewById(R.id.cmdExplicit);
+    }
 }

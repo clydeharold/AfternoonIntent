@@ -13,7 +13,7 @@ public class MainActivity extends AppCompatActivity {
 
     Button cmdSetAlarm;
     EditText txtHour, txtMessage, txtMinutes;
-
+    //Added for git visibility
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
